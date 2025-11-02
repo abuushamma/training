@@ -1,0 +1,420 @@
+
+# Generate final frontend files and comprehensive setup guide
+
+# Final integrated frontend HTML
+final_index_html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Smart Task Manager</h1>
+            <p class="subtitle">Full-Stack Training Project - Week 2</p>
+        </header>
+
+        <div class="user-info" id="userInfo">
+            <span id="currentUser">User: Ahmad</span>
+            <span id="taskCount">Tasks: 0</span>
+        </div>
+
+        <div class="add-task-section">
+            <h2>Add New Task</h2>
+            <form id="taskForm">
+                <input type="text" id="taskTitle" placeholder="Task title" required>
+                <textarea id="taskDescription" placeholder="Task description" rows="3"></textarea>
+                
+                <div class="form-row">
+                    <select id="taskPriority">
+                        <option value="LOW">Low Priority</option>
+                        <option value="MEDIUM" selected>Medium Priority</option>
+                        <option value="HIGH">High Priority</option>
+                        <option value="URGENT">Urgent</option>
+                    </select>
+                    
+                    <input type="datetime-local" id="taskDueDate">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </form>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Tasks</button>
+            <button class="filter-btn" data-filter="TODO">To Do</button>
+            <button class="filter-btn" data-filter="IN_PROGRESS">In Progress</button>
+            <button class="filter-btn" data-filter="COMPLETED">Completed</button>
+        </div>
+
+        <div id="loadingState" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading tasks...</p>
+        </div>
+
+        <div id="errorState" class="error hidden">
+            <p id="errorMessage"></p>
+        </div>
+
+        <div id="tasksList" class="tasks-list">
+            <!-- Tasks will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>"""
+
+# Final integrated frontend CSS
+final_style_css = """/* Smart Task Manager Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #667eea;
+    --primary-dark: #5568d3;
+    --success: #4CAF50;
+    --warning: #ff9800;
+    --danger: #f44336;
+    --low: #4CAF50;
+    --medium: #2196F3;
+    --high: #ff9800;
+    --urgent: #f44336;
+    --bg-light: #f5f5f5;
+    --text-dark: #333;
+    --border: #ddd;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.user-info {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.user-info span {
+    font-weight: 600;
+}
+
+.add-task-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.add-task-section h2 {
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+#taskForm input,
+#taskForm textarea,
+#taskForm select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+#taskForm input:focus,
+#taskForm textarea:focus,
+#taskForm select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    background: var(--bg-light);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.loading, .error {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error {
+    background: #ffebee;
+    border-left: 4px solid var(--danger);
+    color: #c62828;
+    text-align: left;
+}
+
+.tasks-list {
+    display: grid;
+    gap: 15px;
+}
+
+.task-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--primary);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.task-card.priority-LOW {
+    border-left-color: var(--low);
+}
+
+.task-card.priority-MEDIUM {
+    border-left-color: var(--medium);
+}
+
+.task-card.priority-HIGH {
+    border-left-color: var(--high);
+}
+
+.task-card.priority-URGENT {
+    border-left-color: var(--urgent);
+}
+
+.task-card.completed {
+    opacity: 0.7;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.task-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    flex: 1;
+}
+
+.task-card.completed .task-title {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.task-badges {
+    display: flex;
+    gap: 8px;
+}
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-priority {
+    color: white;
+}
+
+.badge-priority.LOW { background: var(--low); }
+.badge-priority.MEDIUM { background: var(--medium); }
+.badge-priority.HIGH { background: var(--high); }
+.badge-priority.URGENT { background: var(--urgent); }
+
+.badge-status {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.badge-status.COMPLETED {
+    background: var(--success);
+    color: white;
+}
+
+.badge-status.IN_PROGRESS {
+    background: var(--warning);
+    color: white;
+}
+
+.task-description {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.task-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.task-actions button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .task-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .task-actions {
+        flex-direction: column;
+    }
+}"""
+
+with open('final-index.html', 'w', encoding='utf-8') as f:
+    f.write(final_index_html)
+with open('final-style.css', 'w', encoding='utf-8') as f:
+    f.write(final_style_css)
+
+print("✓ Generated: final-index.html")
+print("✓ Generated: final-style.css")

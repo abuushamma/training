@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard - Day 5</title>
+    <link rel="stylesheet" href="weather-dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌤️ Weather Dashboard</h1>
+            <p>Async JavaScript & API Integration Demo</p>
+        </header>
+
+        <div class="search-section">
+            <input 
+                type="text" 
+                id="cityInput" 
+                placeholder="Enter city name (e.g., London, Tokyo, New York)" 
+                autocomplete="off"
+            />
+            <button id="searchBtn">Search Weather</button>
+        </div>
+
+        <div id="loadingState" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+
+        <div id="errorState" class="error hidden">
+            <p id="errorMessage"></p>
+        </div>
+
+        <div id="weatherDisplay" class="weather-display hidden">
+            <div class="weather-main">
+                <h2 id="cityName"></h2>
+                <div class="temperature">
+                    <span id="temp"></span>
+                    <span class="unit">°C</span>
+                </div>
+                <p id="description"></p>
+                <img id="weatherIcon" src="" alt="Weather icon" />
+            </div>
+
+            <div class="weather-details">
+                <div class="detail-item">
+                    <span class="detail-label">Feels Like</span>
+                    <span id="feelsLike" class="detail-value"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Humidity</span>
+                    <span id="humidity" class="detail-value"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Wind Speed</span>
+                    <span id="windSpeed" class="detail-value"></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Pressure</span>
+                    <span id="pressure" class="detail-value"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>How to use this dashboard:</h3>
+            <ol>
+                <li>Enter a city name in the search box</li>
+                <li>Click "Search Weather" or press Enter</li>
+                <li>View real-time weather data fetched from OpenWeatherMap API</li>
+                <li>The app demonstrates <code>fetch()</code>, <code>async/await</code>, and error handling</li>
+            </ol>
+            <p class="note"><strong>Note:</strong> This demo uses OpenWeatherMap API. You need an API key for production use.</p>
+        </div>
+    </div>
+
+    <script src="weather-dashboard.js"></script>
+</body>
+</html>

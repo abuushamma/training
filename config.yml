@@ -1,0 +1,35 @@
+# Smart Task Manager Configuration
+# Day 11-12: Dropwizard Configuration
+
+# Server configuration
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+# CORS configuration
+
+# Logging configuration
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+      target: stdout
+      logFormat: "%-5level [%date] %logger: %message%n"
+    - type: file
+      threshold: ALL
+      currentLogFilename: ./logs/application.log
+      archive: true
+      archivedLogFilenamePattern: ./logs/application-%d.log
+      archivedFileCount: 5
+      timeZone: UTC
+
+# Database configuration
+database: jdbc:mysql://localhost:3306/task_manager?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+username: root
+password: abuzada909
+# Connection pool settings

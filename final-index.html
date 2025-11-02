@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Smart Task Manager</h1>
+            <p class="subtitle">Full-Stack Training Project - Week 2</p>
+        </header>
+
+        <div class="user-info" id="userInfo">
+            <span id="currentUser">User: Ahmad</span>
+            <span id="taskCount">Tasks: 0</span>
+        </div>
+
+        <div class="add-task-section">
+            <h2>Add New Task</h2>
+            <form id="taskForm">
+                <input type="text" id="taskTitle" placeholder="Task title" required>
+                <textarea id="taskDescription" placeholder="Task description" rows="3"></textarea>
+
+                <div class="form-row">
+                    <select id="taskPriority">
+                        <option value="LOW">Low Priority</option>
+                        <option value="MEDIUM" selected>Medium Priority</option>
+                        <option value="HIGH">High Priority</option>
+                        <option value="URGENT">Urgent</option>
+                    </select>
+
+                    <input type="datetime-local" id="taskDueDate">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </form>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Tasks</button>
+            <button class="filter-btn" data-filter="TODO">To Do</button>
+            <button class="filter-btn" data-filter="IN_PROGRESS">In Progress</button>
+            <button class="filter-btn" data-filter="COMPLETED">Completed</button>
+        </div>
+
+        <div id="loadingState" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading tasks...</p>
+        </div>
+
+        <div id="errorState" class="error hidden">
+            <p id="errorMessage"></p>
+        </div>
+
+        <div id="tasksList" class="tasks-list">
+            <!-- Tasks will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
